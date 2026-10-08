@@ -1,0 +1,6 @@
+{
+  "name": "Buzzing Brain - Free Education for All",
+  "description": "Buzzing Brain — Free education for all. Open NCERT handwritten study notes engine, digital textbook library, YouTube learning channel, and student study portal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

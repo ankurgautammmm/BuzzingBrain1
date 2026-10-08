@@ -1,0 +1,229 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with authentication details and onboarding acceptance",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Full name of the student or administrator",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the authenticated user",
+          "maxLength": 150
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar URL",
+          "maxLength": 500
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the user",
+          "enum": ["student", "admin"]
+        },
+        "acceptedTerms": {
+          "type": "boolean",
+          "description": "Whether terms & privacy policy are accepted"
+        },
+        "classPreference": {
+          "type": "string",
+          "description": "Current standard/class of student (e.g., Class 10)",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when account profile was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when account profile was last updated"
+        }
+      },
+      "required": ["email", "role"]
+    },
+    "Note": {
+      "title": "Handwritten Study Note",
+      "description": "Generated NCERT study note formatted for realistic handwritten rendering",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the note",
+          "maxLength": 200
+        },
+        "classGrade": {
+          "type": "string",
+          "description": "NCERT Class Grade (e.g., Class 10)",
+          "maxLength": 50
+        },
+        "subject": {
+          "type": "string",
+          "description": "NCERT Subject (e.g., Science, Mathematics)",
+          "maxLength": 100
+        },
+        "chapter": {
+          "type": "string",
+          "description": "NCERT Chapter name or number",
+          "maxLength": 150
+        },
+        "topic": {
+          "type": "string",
+          "description": "Topic or concept sub-heading",
+          "maxLength": 200
+        },
+        "commandUsed": {
+          "type": "string",
+          "description": "The /handwriting raw command line used",
+          "maxLength": 300
+        },
+        "contentJson": {
+          "type": "string",
+          "description": "Structured JSON payload of the handwritten note sections, formulas, diagrams, and callouts",
+          "maxLength": 100000
+        },
+        "styleConfig": {
+          "type": "string",
+          "description": "JSON string of paper type, ink color, pen style, and font choices",
+          "maxLength": 1000
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase UID of note creator",
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Email of note creator",
+          "maxLength": 150
+        },
+        "userName": {
+          "type": "string",
+          "description": "Display name of creator",
+          "maxLength": 100
+        },
+        "isPublic": {
+          "type": "boolean",
+          "description": "Whether the note is shared in the public Student Notes Library"
+        },
+        "likesCount": {
+          "type": "number",
+          "description": "Number of upvotes received"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of update"
+        }
+      },
+      "required": ["title", "classGrade", "subject", "chapter", "contentJson", "userId"]
+    },
+    "Complaint": {
+      "title": "User Complaint or Issue Ticket",
+      "description": "Support tickets and complaints filed by students or teachers",
+      "type": "object",
+      "properties": {
+        "ticketId": {
+          "type": "string",
+          "description": "Friendly ticket reference number e.g. TKT-1042",
+          "maxLength": 50
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of complainant",
+          "maxLength": 128
+        },
+        "userEmail": {
+          "type": "string",
+          "description": "Contact email",
+          "maxLength": 150
+        },
+        "userName": {
+          "type": "string",
+          "description": "Complainant name",
+          "maxLength": 100
+        },
+        "category": {
+          "type": "string",
+          "description": "Complaint category",
+          "enum": ["Syllabus Mismatch", "Generation Error", "Handwriting Rendering Issue", "Account Issue", "Other"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Summary subject of issue",
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed explanation of grievance",
+          "maxLength": 5000
+        },
+        "status": {
+          "type": "string",
+          "description": "Resolution status",
+          "enum": ["pending", "in_review", "resolved"]
+        },
+        "adminNotes": {
+          "type": "string",
+          "description": "Internal notes or resolution response added by admin",
+          "maxLength": 2000
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp updated"
+        }
+      },
+      "required": ["ticketId", "userId", "category", "title", "description", "status"]
+    },
+    "Admin": {
+      "title": "Admin Permission Roster",
+      "description": "Designated administrator UID entries",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Admin email",
+          "maxLength": 150
+        },
+        "role": {
+          "type": "string",
+          "description": "Role level",
+          "enum": ["admin", "superadmin"]
+        },
+        "addedAt": {
+          "type": "string",
+          "description": "ISO timestamp"
+        }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile records containing account role and settings"
+    },
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "Individual NCERT study notes generated by users, viewable in library"
+    },
+    "/complaints/{complaintId}": {
+      "schema": "Complaint",
+      "description": "User submitted complaints, reviewable by administrators"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Admin privileges roster"
+    }
+  }
+}
